@@ -51,6 +51,36 @@
   </div>
 
   <div class="md:col-span-2">
+    <label for="photo" class="block text-sm font-medium text-slate-700">Foto Anggota</label>
+    <div class="mt-2 flex flex-wrap items-center gap-4">
+      @if ($student->photo_path)
+        <img src="{{ asset('storage/'.$student->photo_path) }}" alt="Foto {{ $student->name }}" class="h-20 w-20 rounded-xl object-cover ring-1 ring-slate-200">
+      @else
+        <div class="flex h-20 w-20 items-center justify-center rounded-xl bg-slate-100 text-xl font-bold text-slate-500 ring-1 ring-slate-200">{{ strtoupper(substr($student->name ?: 'A', 0, 1)) }}</div>
+      @endif
+      <div class="min-w-0 flex-1">
+        <input id="photo" name="photo" type="file" accept="image/jpeg,image/png,image/webp" class="block w-full text-sm text-slate-600 file:mr-4 file:rounded-lg file:border-0 file:bg-school-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-school-800 hover:file:bg-school-100">
+        <p class="mt-1 text-xs text-slate-500">JPG, PNG, atau WebP. Maksimal 2 MB.</p>
+        @if ($student->photo_path)
+          <label class="mt-2 inline-flex items-center gap-2 text-sm text-slate-700"><input type="checkbox" name="remove_photo" value="1" class="rounded border-slate-300 text-school-800 focus:ring-school-700"> Hapus foto saat ini</label>
+        @endif
+      </div>
+    </div>
+    @error('photo') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+  </div>
+
+  <div>
+    <label for="password" class="block text-sm font-medium text-slate-700">{{ $student->exists ? 'Reset Password Portal' : 'Password Portal' }} <span class="text-red-600">{{ $student->exists ? '' : '*' }}</span></label>
+    <input id="password" name="password" type="password" class="mt-2 block w-full rounded-lg border-slate-300 text-sm focus:border-school-700 focus:ring-school-700 @error('password') border-red-300 @enderror" placeholder="{{ $student->exists ? 'Kosongkan bila tidak diubah' : 'Minimal 8 karakter' }}" autocomplete="new-password" @required(! $student->exists)>
+    @error('password') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+  </div>
+
+  <div>
+    <label for="password_confirmation" class="block text-sm font-medium text-slate-700">Konfirmasi Password <span class="text-red-600">{{ $student->exists ? '' : '*' }}</span></label>
+    <input id="password_confirmation" name="password_confirmation" type="password" class="mt-2 block w-full rounded-lg border-slate-300 text-sm focus:border-school-700 focus:ring-school-700" placeholder="Ulangi password portal" autocomplete="new-password" @required(! $student->exists)>
+  </div>
+
+  <div class="md:col-span-2">
     <label for="address" class="block text-sm font-medium text-slate-700">Alamat</label>
     <textarea id="address" name="address" rows="3" class="mt-2 block w-full rounded-lg border-slate-300 text-sm focus:border-school-700 focus:ring-school-700 @error('address') border-red-300 @enderror">{{ old('address', $student->address) }}</textarea>
     @error('address') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror

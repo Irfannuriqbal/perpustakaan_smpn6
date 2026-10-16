@@ -34,7 +34,7 @@ class ReportService
                     'nis' => 'NIS',
                     'class' => 'Kelas',
                     'books' => 'Buku',
-                    'officer' => 'Petugas',
+                    'officer' => 'Admin',
                     'status' => 'Status',
                 ],
             ],

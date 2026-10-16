@@ -111,8 +111,8 @@ class LoanBusinessRuleTest extends TestCase
     private function officer(): User
     {
         return User::firstOrCreate(
-            ['email' => 'petugas@example.test'],
-            ['name' => 'Petugas Test', 'password' => Hash::make('password'), 'role' => 'petugas']
+            ['email' => 'admin@example.test'],
+            ['name' => 'Admin Test', 'password' => Hash::make('password'), 'role' => User::ROLE_ADMIN]
         );
     }
 

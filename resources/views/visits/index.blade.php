@@ -7,6 +7,7 @@
         <h2 class="page-title">Kunjungan</h2>
         <p class="page-subtitle">Catatan kunjungan siswa ke perpustakaan berdasarkan scan kode anggota.</p>
       </div>
+      <a href="{{ route('visits.kiosk') }}" class="rounded-lg border border-school-800 px-4 py-2 text-center text-sm font-semibold text-school-800 hover:bg-school-50">Buka Layar Scan</a>
     </section>
 
     @include('components.flash-message')

@@ -32,6 +32,21 @@ class DashboardController extends Controller
             ->count('student_id');
         $todayVisits = Visit::whereDate('visit_date', $today)->count();
         $activeMembers = Student::where('status', 'aktif')->count();
+        $dueSoonLoans = Loan::with(['student', 'items.book'])
+            ->whereNull('returned_at')
+            ->whereIn('status', ['dipinjam', 'terlambat'])
+            ->whereDate('due_date', '>=', $today)
+            ->whereDate('due_date', '<=', now()->addDay()->toDateString())
+            ->orderBy('due_date')
+            ->orderBy('id')
+            ->get()
+            ->map(fn (Loan $loan): array => [
+                'student' => $loan->student?->name ?? '-',
+                'class' => $loan->student?->class ?? '-',
+                'books' => $loan->items->whereNull('returned_at')->pluck('book.title')->filter()->join(', ') ?: '-',
+                'due_date' => $this->formatDateValue($loan->getAttribute('due_date')),
+                'is_today' => $loan->due_date?->isToday() ?? false,
+            ]);
 
         $summaryCards = [
             ['label' => 'Total Buku', 'value' => number_format($totalBooks, 0, ',', '.'), 'note' => 'Total eksemplar koleksi'],
@@ -89,7 +104,7 @@ class DashboardController extends Controller
 
         $visitStats = $this->visitStats();
 
-        return view('dashboard.index', compact('summaryCards', 'recentLoans', 'lateStudentsList', 'popularBooks', 'visitStats'));
+        return view('dashboard.index', compact('summaryCards', 'dueSoonLoans', 'recentLoans', 'lateStudentsList', 'popularBooks', 'visitStats'));
     }
 
     private function formatDateValue(mixed $value): string

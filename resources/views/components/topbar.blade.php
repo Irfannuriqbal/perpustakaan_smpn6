@@ -1,7 +1,7 @@
 @php
   $currentUser = auth()->user();
-  $displayName = $currentUser?->name ?? 'Petugas Perpustakaan';
-  $displayRole = $currentUser?->role ? ucfirst($currentUser->role) : 'Admin/Petugas';
+  $displayName = $currentUser?->name ?? 'Admin Perpustakaan';
+  $displayRole = $currentUser?->roleLabel() ?? 'Admin Perpustakaan';
   $initials = collect(explode(' ', $displayName))->filter()->take(2)->map(fn ($part) => substr($part, 0, 1))->join('') ?: 'PP';
 @endphp
 

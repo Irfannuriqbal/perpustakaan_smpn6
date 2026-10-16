@@ -18,3 +18,34 @@ function closeSidebar() {
 openButton?.addEventListener('click', openSidebar);
 closeButton?.addEventListener('click', closeSidebar);
 overlay?.addEventListener('click', closeSidebar);
+
+const kioskInput = document.querySelector('[data-kiosk-input]');
+const kioskResult = document.querySelector('[data-kiosk-result]');
+
+function focusKioskInput() {
+  kioskInput?.focus();
+}
+
+if (kioskInput) {
+  focusKioskInput();
+  document.addEventListener('pointerdown', focusKioskInput);
+}
+
+if (kioskResult) {
+  const resetUrl = kioskResult.dataset.kioskResetUrl;
+  const countdown = kioskResult.querySelector('[data-kiosk-countdown]');
+  let seconds = Number(countdown?.textContent ?? 4);
+
+  const interval = window.setInterval(() => {
+    seconds -= 1;
+
+    if (countdown) {
+      countdown.textContent = String(Math.max(seconds, 0));
+    }
+
+    if (seconds <= 0) {
+      window.clearInterval(interval);
+      window.location.assign(resetUrl);
+    }
+  }, 1000);
+}

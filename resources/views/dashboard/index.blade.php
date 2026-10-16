@@ -3,9 +3,29 @@
 @section('content')
   <div class="space-y-6">
     <section>
-      <h2 class="page-title">Dashboard Admin/Petugas</h2>
+      <h2 class="page-title">Dashboard Super Admin/Admin</h2>
       <p class="page-subtitle">Ringkasan aktivitas perpustakaan sekolah berdasarkan data terbaru.</p>
     </section>
+
+    @if ($dueSoonLoans->isNotEmpty())
+      <section class="overflow-hidden rounded-xl border border-amber-200 bg-amber-50">
+        <div class="border-b border-amber-200 px-5 py-4">
+          <h3 class="text-base font-semibold text-amber-950">Peringatan Jatuh Tempo</h3>
+          <p class="mt-1 text-sm text-amber-800">{{ $dueSoonLoans->count() }} transaksi harus diperiksa hari ini atau besok.</p>
+        </div>
+        <div class="divide-y divide-amber-100">
+          @foreach ($dueSoonLoans as $loan)
+            <div class="flex flex-col gap-2 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p class="font-semibold text-slate-900">{{ $loan['student'] }} <span class="font-normal text-slate-600">· {{ $loan['class'] }}</span></p>
+                <p class="mt-1 text-sm text-slate-700">{{ $loan['books'] }}</p>
+              </div>
+              <span class="shrink-0 rounded-full px-3 py-1 text-sm font-semibold {{ $loan['is_today'] ? 'bg-red-100 text-red-800' : 'bg-amber-100 text-amber-900' }}">{{ $loan['is_today'] ? 'Jatuh tempo hari ini' : 'Jatuh tempo besok' }} · {{ $loan['due_date'] }}</span>
+            </div>
+          @endforeach
+        </div>
+      </section>
+    @endif
 
     <section class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
       @foreach ($summaryCards as $card)

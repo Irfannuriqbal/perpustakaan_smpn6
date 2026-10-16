@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreVisitByMemberCodeRequest;
-use App\Http\Requests\StoreVisitRequest;
 use App\Http\Requests\UpdateVisitRequest;
 use App\Models\Student;
 use App\Models\Visit;
@@ -48,6 +47,36 @@ class VisitController extends Controller
             ->pluck('class');
 
         return view('visits.index', compact('visits', 'classes', 'search', 'class', 'visitDate'));
+    }
+
+    public function kiosk(): View
+    {
+        return view('visits.kiosk');
+    }
+
+    public function storeKiosk(StoreVisitByMemberCodeRequest $request): RedirectResponse
+    {
+        try {
+            $visit = $this->visitService->recordByMemberCode($request->validated('member_code'));
+            $student = $visit->student;
+
+            return redirect()->route('visits.kiosk')->with('kiosk_result', [
+                'status' => 'success',
+                'name' => $student->name,
+                'class' => $student->class,
+                'check_in_time' => substr($visit->check_in_time, 0, 5),
+            ]);
+        } catch (ValidationException $exception) {
+            return redirect()->route('visits.kiosk')->with('kiosk_result', [
+                'status' => 'error',
+                'message' => collect($exception->errors())->flatten()->first(),
+            ]);
+        } catch (Throwable) {
+            return redirect()->route('visits.kiosk')->with('kiosk_result', [
+                'status' => 'error',
+                'message' => 'Kunjungan gagal dicatat. Periksa kembali kode anggota.',
+            ]);
+        }
     }
 
     public function create(): RedirectResponse

@@ -147,7 +147,7 @@ class LoanController extends Controller
         }
 
         $student = Student::find($draft['student_id']);
-        $officer = $this->currentOfficer();
+        $officer = $request->user();
 
         if (! $student) {
             $this->clearDraft($request);
@@ -155,8 +155,8 @@ class LoanController extends Controller
             return redirect()->route('loans.create')->with('error', 'Data siswa pada draft tidak ditemukan. Silakan scan ulang kode anggota.');
         }
 
-        if (! $officer) {
-            return redirect()->route('loans.create')->with('error', 'Data petugas belum tersedia. Jalankan seeder atau tambahkan user petugas terlebih dahulu.');
+        if (! $officer instanceof User) {
+            return redirect()->route('login')->with('error', 'Silakan masuk dengan akun admin terlebih dahulu.');
         }
 
         try {
@@ -249,8 +249,4 @@ class LoanController extends Controller
         $request->session()->forget(self::DRAFT_SESSION_KEY);
     }
 
-    private function currentOfficer(): ?User
-    {
-        return User::where('role', 'petugas')->first() ?? User::first();
-    }
 }

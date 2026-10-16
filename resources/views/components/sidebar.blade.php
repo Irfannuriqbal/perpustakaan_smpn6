@@ -7,8 +7,15 @@
       ['label' => 'Pengembalian', 'route' => 'returns.index', 'icon' => 'return'],
       ['label' => 'Kunjungan', 'route' => 'visits.index', 'icon' => 'visit'],
       ['label' => 'Laporan', 'route' => 'reports.index', 'icon' => 'report'],
-      ['label' => 'Pengaturan', 'route' => 'settings.index', 'icon' => 'settings'],
   ];
+
+  if (auth()->user()?->isSuperAdmin()) {
+      $navigation = array_merge($navigation, [
+          ['label' => 'Akun Admin', 'route' => 'users.index', 'icon' => 'settings'],
+          ['label' => 'Backup', 'route' => 'backups.index', 'icon' => 'report'],
+          ['label' => 'Pengaturan', 'route' => 'settings.index', 'icon' => 'settings'],
+      ]);
+  }
 @endphp
 
 <aside data-sidebar class="fixed inset-y-0 left-0 z-50 flex w-72 -translate-x-full flex-col border-r border-slate-200 bg-white transition-transform duration-200 lg:translate-x-0">

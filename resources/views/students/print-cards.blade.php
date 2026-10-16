@@ -118,8 +118,27 @@
     .card-body {
       display: grid;
       gap: 12px;
-      grid-template-columns: 1fr 110px;
+      grid-template-columns: 68px 1fr 110px;
       padding: 14px 16px 16px;
+    }
+
+    .student-photo,
+    .student-photo-placeholder {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      height: 68px;
+      object-fit: cover;
+      width: 68px;
+    }
+
+    .student-photo-placeholder {
+      align-items: center;
+      background: var(--soft);
+      color: var(--muted);
+      display: flex;
+      font-size: 24px;
+      font-weight: 800;
+      justify-content: center;
     }
 
     .student-name {
@@ -244,6 +263,11 @@
               <div class="card-title">Kartu Anggota Perpustakaan</div>
             </div>
             <div class="card-body">
+              @if ($student->photo_path)
+                <img src="{{ asset('storage/'.$student->photo_path) }}" alt="Foto {{ $student->name }}" class="student-photo">
+              @else
+                <div class="student-photo-placeholder" aria-label="Foto tidak tersedia">{{ strtoupper(substr($student->name, 0, 1)) }}</div>
+              @endif
               <div>
                 <p class="student-name">{{ $student->name }}</p>
                 <dl class="meta">

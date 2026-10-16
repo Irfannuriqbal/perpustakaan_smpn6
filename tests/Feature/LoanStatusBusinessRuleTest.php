@@ -89,8 +89,8 @@ class LoanStatusBusinessRuleTest extends TestCase
     private function officer(): User
     {
         return User::firstOrCreate(
-            ['email' => 'petugas-status@example.test'],
-            ['name' => 'Petugas Status', 'password' => Hash::make('password'), 'role' => 'petugas']
+            ['email' => 'admin-status@example.test'],
+            ['name' => 'Admin Status', 'password' => Hash::make('password'), 'role' => User::ROLE_ADMIN]
         );
     }
 }

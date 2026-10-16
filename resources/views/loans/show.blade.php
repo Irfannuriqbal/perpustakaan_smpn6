@@ -38,7 +38,7 @@
           <dd class="mt-1 text-sm text-slate-900">{{ $loan->student?->nis ?? '-' }} / {{ $loan->student?->class ?? '-' }}</dd>
         </div>
         <div>
-          <dt class="text-xs font-medium uppercase tracking-wide text-slate-500">Petugas</dt>
+          <dt class="text-xs font-medium uppercase tracking-wide text-slate-500">Admin</dt>
           <dd class="mt-1 text-sm text-slate-900">{{ $loan->user?->name ?? '-' }}</dd>
         </div>
         <div>

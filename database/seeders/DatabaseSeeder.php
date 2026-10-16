@@ -15,18 +15,18 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        $admin = User::create([
-            'name' => 'Administrator Perpustakaan',
-            'email' => 'admin@smpn6bandung.sch.id',
+        $superAdmin = User::create([
+            'name' => 'Kepala Perpustakaan',
+            'email' => 'superadmin@smpn6bandung.sch.id',
             'password' => Hash::make('password'),
-            'role' => 'admin',
+            'role' => User::ROLE_SUPER_ADMIN,
         ]);
 
-        $petugas = User::create([
-            'name' => 'Petugas Perpustakaan',
-            'email' => 'petugas@smpn6bandung.sch.id',
+        $admin = User::create([
+            'name' => 'Admin Perpustakaan',
+            'email' => 'admin@smpn6bandung.sch.id',
             'password' => Hash::make('password'),
-            'role' => 'petugas',
+            'role' => User::ROLE_ADMIN,
         ]);
 
         $pelajaran = Category::create([
@@ -54,6 +54,7 @@ class DatabaseSeeder extends Seeder
                 'phone' => '081234560001',
                 'address' => 'Bandung',
                 'status' => 'aktif',
+                'password' => Hash::make('password'),
             ]),
             Student::create([
                 'nis' => '2425002',
@@ -64,6 +65,7 @@ class DatabaseSeeder extends Seeder
                 'phone' => '081234560002',
                 'address' => 'Bandung',
                 'status' => 'aktif',
+                'password' => Hash::make('password'),
             ]),
             Student::create([
                 'nis' => '2425003',
@@ -74,6 +76,7 @@ class DatabaseSeeder extends Seeder
                 'phone' => null,
                 'address' => 'Bandung',
                 'status' => 'aktif',
+                'password' => Hash::make('password'),
             ]),
             Student::create([
                 'nis' => '2425004',
@@ -84,6 +87,7 @@ class DatabaseSeeder extends Seeder
                 'phone' => null,
                 'address' => null,
                 'status' => 'aktif',
+                'password' => Hash::make('password'),
             ]),
         ]);
 
@@ -145,7 +149,7 @@ class DatabaseSeeder extends Seeder
         $loanOne = Loan::create([
             'loan_code' => 'PMJ-1026-001',
             'student_id' => $students[0]->id,
-            'user_id' => $petugas->id,
+            'user_id' => $admin->id,
             'loan_date' => '2026-10-14',
             'due_date' => '2026-10-21',
             'returned_at' => null,
@@ -162,7 +166,7 @@ class DatabaseSeeder extends Seeder
         $loanTwo = Loan::create([
             'loan_code' => 'PMJ-1026-002',
             'student_id' => $students[2]->id,
-            'user_id' => $admin->id,
+            'user_id' => $superAdmin->id,
             'loan_date' => '2026-10-07',
             'due_date' => '2026-10-14',
             'returned_at' => null,

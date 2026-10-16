@@ -40,6 +40,28 @@ class AuthenticationTest extends TestCase
         $this->get('/dashboard')->assertRedirect('/login');
     }
 
+    public function test_dashboard_menampilkan_label_role_admin(): void
+    {
+        $user = $this->user();
+
+        $this->actingAs($user)
+            ->get('/dashboard')
+            ->assertOk()
+            ->assertSeeText('Admin Perpustakaan');
+    }
+
+    public function test_role_super_admin_memiliki_label_kepala_perpustakaan(): void
+    {
+        $user = User::create([
+            'name' => 'Kepala Perpustakaan',
+            'email' => 'superadmin@example.test',
+            'password' => Hash::make('password'),
+            'role' => User::ROLE_SUPER_ADMIN,
+        ]);
+
+        $this->assertSame('Kepala Perpustakaan', $user->roleLabel());
+    }
+
     public function test_logout_menghapus_sesi(): void
     {
         $user = $this->user();
@@ -54,10 +76,10 @@ class AuthenticationTest extends TestCase
     private function user(): User
     {
         return User::create([
-            'name' => 'Petugas Test',
-            'email' => 'petugas@example.test',
+            'name' => 'Admin Test',
+            'email' => 'admin@example.test',
             'password' => Hash::make('password'),
-            'role' => 'petugas',
+            'role' => User::ROLE_ADMIN,
         ]);
     }
 }

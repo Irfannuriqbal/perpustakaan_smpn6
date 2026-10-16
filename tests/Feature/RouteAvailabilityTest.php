@@ -10,8 +10,6 @@ class RouteAvailabilityTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected bool $seed = true;
-
     public function test_login_page_can_be_rendered(): void
     {
         $this->get('/login')->assertOk();
@@ -29,6 +27,7 @@ class RouteAvailabilityTest extends TestCase
             '/loans',
             '/returns',
             '/visits',
+            '/visits/kiosk',
             '/reports',
             '/students/cards/print',
             '/books/barcodes/print',

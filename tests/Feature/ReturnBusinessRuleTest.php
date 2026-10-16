@@ -97,8 +97,8 @@ class ReturnBusinessRuleTest extends TestCase
     private function officer(): User
     {
         return User::firstOrCreate(
-            ['email' => 'petugas-return@example.test'],
-            ['name' => 'Petugas Return', 'password' => Hash::make('password'), 'role' => 'petugas']
+            ['email' => 'admin-return@example.test'],
+            ['name' => 'Admin Return', 'password' => Hash::make('password'), 'role' => User::ROLE_ADMIN]
         );
     }
 }

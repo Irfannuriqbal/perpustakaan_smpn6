@@ -10,8 +10,8 @@
 
     <div class="admin-card p-6 sm:p-8">
       <div class="mb-6">
-        <h2 class="text-lg font-semibold text-slate-900">Masuk ke akun petugas</h2>
-        <p class="mt-1 text-sm text-slate-500">Gunakan akun admin atau petugas perpustakaan.</p>
+        <h2 class="text-lg font-semibold text-slate-900">Masuk ke akun perpustakaan</h2>
+        <p class="mt-1 text-sm text-slate-500">Gunakan akun super admin atau admin perpustakaan.</p>
       </div>
 
       @include('components.flash-message')
@@ -33,5 +33,7 @@
         <button type="submit" class="w-full rounded-lg bg-school-800 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-school-900 focus:outline-none focus:ring-2 focus:ring-school-700 focus:ring-offset-2">Masuk</button>
       </form>
     </div>
+
+    <p class="mt-5 text-center text-sm text-slate-600">Anggota perpustakaan? <a href="{{ route('members.login') }}" class="font-semibold text-school-800 hover:text-school-900">Buka kartu digital</a>.</p>
   </section>
 @endsection

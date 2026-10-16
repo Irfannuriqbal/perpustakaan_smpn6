@@ -12,7 +12,7 @@
 
     @include('components.flash-message')
 
-    <form action="{{ route('students.store') }}" method="POST" class="admin-card p-5">
+    <form action="{{ route('students.store') }}" method="POST" enctype="multipart/form-data" class="admin-card p-5">
       @include('students._form')
     </form>
   </div>

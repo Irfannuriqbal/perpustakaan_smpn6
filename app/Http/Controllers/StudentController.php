@@ -8,6 +8,7 @@ use App\Models\Student;
 use App\Services\CodeImageService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Throwable;
 
@@ -48,11 +49,23 @@ class StudentController extends Controller
 
     public function store(StoreStudentRequest $request): RedirectResponse
     {
+        $validated = $request->safe()->except('photo');
+        $newPhotoPath = null;
+
         try {
-            Student::create($request->validated());
+            if ($request->hasFile('photo')) {
+                $newPhotoPath = $request->file('photo')->store('member-photos', 'public');
+                $validated['photo_path'] = $newPhotoPath;
+            }
+
+            Student::create($validated);
 
             return redirect()->route('students.index')->with('success', 'Data siswa berhasil ditambahkan.');
         } catch (Throwable) {
+            if ($newPhotoPath) {
+                Storage::disk('public')->delete($newPhotoPath);
+            }
+
             return back()->withInput()->with('error', 'Data siswa gagal ditambahkan. Periksa kembali data yang diisi.');
         }
     }
@@ -102,19 +115,48 @@ class StudentController extends Controller
 
     public function update(UpdateStudentRequest $request, Student $student): RedirectResponse
     {
+        $validated = $request->safe()->except(['photo', 'remove_photo']);
+        $previousPhotoPath = $student->photo_path;
+        $newPhotoPath = null;
+
+        if (empty($validated['password'])) {
+            unset($validated['password']);
+        }
+
         try {
-            $student->update($request->validated());
+            if ($request->hasFile('photo')) {
+                $newPhotoPath = $request->file('photo')->store('member-photos', 'public');
+                $validated['photo_path'] = $newPhotoPath;
+            } elseif ($request->boolean('remove_photo')) {
+                $validated['photo_path'] = null;
+            }
+
+            $student->update($validated);
+
+            if (array_key_exists('photo_path', $validated) && $previousPhotoPath) {
+                Storage::disk('public')->delete($previousPhotoPath);
+            }
 
             return redirect()->route('students.index')->with('success', 'Data siswa berhasil diperbarui.');
         } catch (Throwable) {
+            if ($newPhotoPath) {
+                Storage::disk('public')->delete($newPhotoPath);
+            }
+
             return back()->withInput()->with('error', 'Data siswa gagal diperbarui. Periksa kembali data yang diisi.');
         }
     }
 
     public function destroy(Student $student): RedirectResponse
     {
+        $photoPath = $student->photo_path;
+
         try {
             $student->delete();
+
+            if ($photoPath) {
+                Storage::disk('public')->delete($photoPath);
+            }
 
             return redirect()->route('students.index')->with('success', 'Data siswa berhasil dihapus.');
         } catch (Throwable) {

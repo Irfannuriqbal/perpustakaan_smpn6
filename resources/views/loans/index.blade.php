@@ -24,7 +24,7 @@
             <tr>
               <th class="px-4 py-3">Kode</th>
               <th class="px-4 py-3">Siswa</th>
-              <th class="px-4 py-3">Petugas</th>
+              <th class="px-4 py-3">Admin</th>
               <th class="px-4 py-3">Buku</th>
               <th class="px-4 py-3">Tanggal Pinjam</th>
               <th class="px-4 py-3">Jatuh Tempo</th>

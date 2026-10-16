@@ -11,7 +11,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        // Middleware aplikasi dapat ditambahkan saat kebutuhan autentikasi sudah dibuat.
+        $middleware->alias([
+            'member.auth' => \App\Http\Middleware\AuthenticateMember::class,
+            'super.admin' => \App\Http\Middleware\EnsureSuperAdmin::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         // Penanganan exception khusus dapat ditambahkan nanti.

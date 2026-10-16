@@ -25,6 +25,9 @@ class UpdateStudentRequest extends FormRequest
             'phone' => ['nullable', 'string', 'max:30'],
             'address' => ['nullable', 'string'],
             'status' => ['required', Rule::in(['aktif', 'nonaktif'])],
+            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+            'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'remove_photo' => ['nullable', 'boolean'],
         ];
     }
 }
