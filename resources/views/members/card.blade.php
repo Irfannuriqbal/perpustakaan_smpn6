@@ -14,10 +14,13 @@
         <p class="text-xs font-semibold uppercase tracking-[0.16em] text-school-800">Perpustakaan SMP Negeri 6 Bandung</p>
         <h1 class="mt-1 text-2xl font-bold text-slate-900">Kartu Anggota Digital</h1>
       </div>
-      <form action="{{ route('members.logout') }}" method="POST">
-        @csrf
-        <button type="submit" class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-white">Keluar</button>
-      </form>
+      <div class="flex items-center gap-2">
+        <a href="{{ route('members.profile') }}" class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-white">Profil</a>
+        <form action="{{ route('members.logout') }}" method="POST">
+          @csrf
+          <button type="submit" class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-white">Keluar</button>
+        </form>
+      </div>
     </header>
 
     <section class="mt-6 overflow-hidden rounded-3xl bg-gradient-to-br from-school-700 to-school-900 p-6 text-white shadow-xl sm:p-8">

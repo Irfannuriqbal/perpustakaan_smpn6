@@ -9,6 +9,7 @@ use App\Http\Controllers\LoanController;
 use App\Http\Controllers\MemberAuthController;
 use App\Http\Controllers\MemberCardController;
 use App\Http\Controllers\MemberPasswordController;
+use App\Http\Controllers\MemberProfileController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\ReturnController;
@@ -23,6 +24,9 @@ Route::get('/anggota/login', [MemberAuthController::class, 'index'])->name('memb
 Route::post('/anggota/login', [MemberAuthController::class, 'store'])->name('members.login.store');
 Route::middleware('member.auth')->prefix('anggota')->name('members.')->group(function (): void {
     Route::get('/kartu', [MemberCardController::class, 'show'])->name('card');
+    Route::get('/profil', [MemberProfileController::class, 'show'])->name('profile');
+    Route::get('/profil/edit', [MemberProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profil', [MemberProfileController::class, 'update'])->name('profile.update');
     Route::put('/password', [MemberPasswordController::class, 'update'])->name('password.update');
     Route::post('/logout', [MemberAuthController::class, 'destroy'])->name('logout');
 });

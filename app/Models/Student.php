@@ -36,6 +36,11 @@ class Student extends Authenticatable
         ];
     }
 
+    public function getAuthIdentifierName(): string
+    {
+        return 'nis';
+    }
+
     public function loans(): HasMany
     {
         return $this->hasMany(Loan::class);
